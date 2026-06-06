@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OdontoSync</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="odonto-auth.css" />
+  <script src="script.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Ícones Tabler -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+</head>
+
+<body>
+
+  <!-- ===== LOGIN ===== -->
+  <section id="loginScreen" class="auth-screen">
+
+    <!-- Painel esquerdo -->
+    <div class="auth-left">
+      <div class="auth-brand">
+        <div class="auth-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5.5c-1.5-2-3.5-3-5-2.5C4 4 3 6.5 3 9c0 2 .5 3.5 1.5 5 .8 1.2 1.5 2.5 1.5 4 0 1 .5 1.5 1.2 1.5.8 0 1.3-.8 1.8-2.5.5-1.5 1-2 3-2s2.5.5 3 2c.5 1.7 1 2.5 1.8 2.5.7 0 1.2-.5 1.2-1.5 0-1.5.7-2.8 1.5-4C20.5 12.5 21 11 21 9c0-2.5-1-5-4-6-1.5-.5-3.5.5-5 2.5z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="auth-brand-name">OdontoSync</div>
+          <div class="auth-brand-tag">Cuidando do seu sorriso</div>
+        </div>
+      </div>
+
+      <div class="auth-hero">
+        <div class="auth-badge">
+          <div class="auth-badge-dot"></div>
+          <span>Clínica aberta · Atendendo hoje</span>
+        </div>
+        <h1>Seu sorriso merece o melhor <span>cuidado</span></h1>
+        <p>Agende sua consulta online em minutos. Dentistas experientes, atendimento humanizado e tecnologia a serviço da sua saúde.</p>
+        <div class="auth-stats">
+          <div class="auth-stat">
+            <strong>+2.400</strong>
+            <span>Pacientes atendidos</span>
+          </div>
+          <div class="auth-stat-divider"></div>
+          <div class="auth-stat">
+            <strong>98%</strong>
+            <span>Satisfação</span>
+          </div>
+          <div class="auth-stat-divider"></div>
+          <div class="auth-stat">
+            <strong>12 anos</strong>
+            <span>De experiência</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-benefits">
+        <div class="auth-benefit">
+          <div class="auth-benefit-icon">
+            <i class="ti ti-calendar-check"></i>
+          </div>
+          <div class="auth-benefit-text">
+            <strong>Agendamento online</strong>
+            <span>Escolha o horário que for melhor para você</span>
+          </div>
+        </div>
+        <div class="auth-benefit">
+          <div class="auth-benefit-icon">
+            <i class="ti ti-shield-check"></i>
+          </div>
+          <div class="auth-benefit-text">
+            <strong>Prontuário digital seguro</strong>
+            <span>Seu histórico sempre disponível</span>
+          </div>
+        </div>
+        <div class="auth-benefit">
+          <div class="auth-benefit-icon">
+            <i class="ti ti-bell-ringing"></i>
+          </div>
+          <div class="auth-benefit-text">
+            <strong>Dados persistentes</strong>
+            <span>Informações salvas no backend SQLite</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Painel direito -->
+    <div class="auth-right">
+      <div class="auth-card">
+        <div class="auth-card-header">
+          <h2>Bem-vindo de volta!</h2>
+          <p>Acesse sua conta para gerenciar suas consultas</p>
+        </div>
+
+        <form id="loginForm" class="auth-form">
+          <div class="auth-field">
+            <label for="loginUser">Usuário</label>
+            <div class="auth-input-wrap">
+              <i class="ti ti-user input-icon"></i>
+              <input type="text" id="loginUser" placeholder="Digite seu usuário" required autocomplete="username">
+            </div>
+          </div>
+          <div class="auth-field">
+            <label for="loginPassword">Senha</label>
+            <div class="auth-input-wrap">
+              <i class="ti ti-lock input-icon"></i>
+              <input type="password" id="loginPassword" placeholder="Digite sua senha" required autocomplete="current-password">
+              <button type="button" class="toggle-password" onclick="toggleSenha('loginPassword', this)" tabindex="-1" aria-label="Mostrar senha">
+                <i class="ti ti-eye"></i>
+              </button>
+            </div>
+            <div class="auth-forgot">
+              <i class="ti ti-info-circle" style="font-size:12px; color:#94a3b8;"></i>
+            <span>Seus dados são protegidos e armazenados com segurança.</span>
+            </div>
+          </div>
+          <p id="loginError" class="form-error hidden"></p>
+          <button type="submit" class="auth-btn-primary">
+            Entrar na minha conta
+            <i class="ti ti-arrow-right"></i>
+          </button>
+
+          <div class="auth-divider">ou</div>
+
+          <button type="button" class="auth-btn-secondary" onclick="abrirCadastro()">
+            <i class="ti ti-calendar-plus"></i>
+            Criar conta para agendar
+          </button>
+
+          <div class="auth-trust">
+            <i class="ti ti-shield-check" style="color:#22c55e; font-size:14px;"></i>
+            Sistema acadêmico conectado ao backend SQLite
+          </div>
+        </form>
+
+        <div class="auth-new-patient" onclick="abrirCadastro()" style="cursor:pointer;">
+          <div class="auth-new-patient-text">
+            <strong>Novo por aqui?</strong>
+            <span>Crie sua conta e agende grátis</span>
+          </div>
+          <div class="auth-new-patient-arrow">
+            <i class="ti ti-arrow-right"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CADASTRO ===== -->
+  <section id="registerScreen" class="auth-screen hidden">
+    <div class="auth-left">
+      <div class="auth-brand">
+        <div class="auth-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5.5c-1.5-2-3.5-3-5-2.5C4 4 3 6.5 3 9c0 2 .5 3.5 1.5 5 .8 1.2 1.5 2.5 1.5 4 0 1 .5 1.5 1.2 1.5.8 0 1.3-.8 1.8-2.5.5-1.5 1-2 3-2s2.5.5 3 2c.5 1.7 1 2.5 1.8 2.5.7 0 1.2-.5 1.2-1.5 0-1.5.7-2.8 1.5-4C20.5 12.5 21 11 21 9c0-2.5-1-5-4-6-1.5-.5-3.5.5-5 2.5z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="auth-brand-name">OdontoSync</div>
+          <div class="auth-brand-tag">Cadastro rápido e gratuito</div>
+        </div>
+      </div>
+
+      <div class="auth-hero">
+        <div class="auth-badge">
+          <div class="auth-badge-dot"></div>
+          <span>2 clínicas disponíveis</span>
+        </div>
+        <h1>Crie sua conta e agende sua <span>consulta</span></h1>
+        <p>Cadastro rápido e gratuito. Acesse nossas clínicas e agende online em poucos segundos.</p>
+        <div class="auth-stats">
+          <div class="auth-stat">
+            <strong>2</strong>
+            <span>Clínicas</span>
+          </div>
+          <div class="auth-stat-divider"></div>
+          <div class="auth-stat">
+            <strong>3</strong>
+            <span>Dentistas</span>
+          </div>
+          <div class="auth-stat-divider"></div>
+          <div class="auth-stat">
+            <strong>100%</strong>
+            <span>Online</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-benefits">
+        <div class="auth-benefit">
+          <div class="auth-benefit-icon">
+            <i class="ti ti-building-hospital"></i>
+          </div>
+          <div class="auth-benefit-text">
+            <strong>2 clínicas disponíveis</strong>
+            <span>Escolha a mais próxima de você</span>
+          </div>
+        </div>
+        <div class="auth-benefit">
+          <div class="auth-benefit-icon">
+            <i class="ti ti-stethoscope"></i>
+          </div>
+          <div class="auth-benefit-text">
+            <strong>3 dentistas especializados</strong>
+            <span>Profissionais com anos de experiência</span>
+          </div>
+        </div>
+        <div class="auth-benefit">
+          <div class="auth-benefit-icon">
+            <i class="ti ti-clipboard-list"></i>
+          </div>
+          <div class="auth-benefit-text">
+            <strong>Histórico de atendimentos</strong>
+            <span>Seu prontuário sempre acessível</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="auth-right">
+      <div class="auth-card">
+        <div class="auth-card-header">
+          <h2>Criar conta</h2>
+          <p>Preencha os dados abaixo para se cadastrar</p>
+        </div>
+
+        <form id="registerForm" class="auth-form">
+          <div class="auth-field">
+            <label>Nome completo</label>
+            <div class="auth-input-wrap">
+              <i class="ti ti-user input-icon"></i>
+              <input type="text" id="registerName" placeholder="Digite seu nome" required>
+            </div>
+          </div>
+          <div class="auth-field">
+            <label>CPF</label>
+            <div class="auth-input-wrap">
+              <i class="ti ti-id-badge input-icon"></i>
+              <input type="text" id="registerCpf" placeholder="000.000.000-00" required>
+            </div>
+          </div>
+          <div class="auth-field">
+            <label>Clínica principal</label>
+            <div class="auth-input-wrap">
+              <i class="ti ti-building-hospital input-icon"></i>
+              <select id="registerClinic" required style="padding-left:40px; width:100%; padding-top:11px; padding-bottom:11px; background:#f7f8fc; border:1.5px solid rgba(0,0,0,0.07); border-radius:10px; font-size:14px; font-family:inherit; color:#0f1623; outline:none;">
+                <option value="Clínica A">Clínica A</option>
+                <option value="Clínica B">Clínica B</option>
+              </select>
+            </div>
+          </div>
+          <div class="auth-field">
+            <label>Usuário</label>
+            <div class="auth-input-wrap">
+              <i class="ti ti-pencil input-icon"></i>
+              <input type="text" id="registerUser" placeholder="Crie um usuário" required autocomplete="username">
+            </div>
+          </div>
+          <div class="auth-field">
+            <label>Senha</label>
+            <div class="auth-input-wrap">
+              <i class="ti ti-lock input-icon"></i>
+              <input type="password" id="registerPassword" placeholder="Crie uma senha" required autocomplete="new-password">
+              <button type="button" class="toggle-password" onclick="toggleSenha('registerPassword', this)" tabindex="-1" aria-label="Mostrar senha">
+                <i class="ti ti-eye"></i>
+              </button>
+            </div>
+          </div>
+          <p id="registerError" class="form-error hidden"></p>
+          <button type="submit" class="auth-btn-primary">
+            Criar minha conta
+            <i class="ti ti-arrow-right"></i>
+          </button>
+        </form>
+
+        <div class="auth-new-patient" onclick="voltarParaLogin()" style="cursor:pointer; margin-top:16px;">
+          <div class="auth-new-patient-text">
+            <strong>Já tem conta?</strong>
+            <span>Voltar para o login</span>
+          </div>
+          <div class="auth-new-patient-arrow">
+            <i class="ti ti-arrow-right"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SISTEMA ===== -->
+  <section id="systemScreen" class="hidden">
+
+    <aside class="sidebar">
+      <div>
+        <div class="sidebar-top">
+          <div class="sidebar-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 5.5c-1.5-2-3.5-3-5-2.5C4 4 3 6.5 3 9c0 2 .5 3.5 1.5 5 .8 1.2 1.5 2.5 1.5 4 0 1 .5 1.5 1.2 1.5.8 0 1.3-.8 1.8-2.5.5-1.5 1-2 3-2s2.5.5 3 2c.5 1.7 1 2.5 1.8 2.5.7 0 1.2-.5 1.2-1.5 0-1.5.7-2.8 1.5-4C20.5 12.5 21 11 21 9c0-2.5-1-5-4-6-1.5-.5-3.5.5-5 2.5z"/>
+            </svg>
+          </div>
+          <div>
+            <h2>OdontoSync</h2>
+            <p id="userTypeText">Painel</p>
+          </div>
+        </div>
+
+        <div class="user-info-row">
+          <div class="user-avatar" id="userInitials">?</div>
+          <div>
+            <div class="user-name-text" id="userDisplayName">—</div>
+            <div class="user-role-text" id="userTypeText2"></div>
+          </div>
+        </div>
+
+        <nav class="menu">
+          <div id="doctorMenu" class="hidden">
+            <button class="menu-btn active" onclick="mostrarTela('dashboardDoctor', this)">
+              <span class="btn-icon"><i class="ti ti-layout-dashboard"></i></span> Dashboard
+            </button>
+            <button class="menu-btn" onclick="mostrarTela('appointmentsDoctor', this)">
+              <span class="btn-icon"><i class="ti ti-calendar"></i></span> Agendamentos
+            </button>
+            <button class="menu-btn" onclick="mostrarTela('patientsDoctor', this)">
+              <span class="btn-icon"><i class="ti ti-users"></i></span> Pacientes
+            </button>
+            <button class="menu-btn" onclick="mostrarTela('recordsDoctor', this)">
+              <span class="btn-icon"><i class="ti ti-clipboard-list"></i></span> Prontuários
+            </button>
+            <button class="menu-btn" onclick="mostrarTela('syncDoctor', this)">
+              <span class="btn-icon"><i class="ti ti-refresh"></i></span> Sincronização
+            </button>
+            <button class="menu-btn" onclick="mostrarTela('dataDoctor', this)">
+              <span class="btn-icon"><i class="ti ti-database"></i></span> Dados
+            </button>
+          </div>
+
+          <div id="patientMenu" class="hidden">
+            <button class="menu-btn active" onclick="mostrarTela('dashboardPatient', this)">
+              <span class="btn-icon"><i class="ti ti-home"></i></span> Início
+            </button>
+            <button class="menu-btn" onclick="mostrarTela('schedulePatient', this)">
+              <span class="btn-icon"><i class="ti ti-calendar-plus"></i></span> Agendar Consulta
+            </button>
+            <button class="menu-btn" onclick="mostrarTela('consultsPatient', this)">
+              <span class="btn-icon"><i class="ti ti-notes"></i></span> Minhas Consultas
+            </button>
+          </div>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <button onclick="abrirModalLogout()" class="logout-btn">
+          <span class="btn-icon"><i class="ti ti-door-exit"></i></span> Sair do Sistema
+        </button>
+      </div>
+    </aside>
+
+    <!-- Overlay para fechar sidebar no mobile -->
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="fecharSidebar()"></div>
+
+    <main class="content">
+
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="hamburger-btn" onclick="abrirSidebar()" aria-label="Menu">
+            <i class="ti ti-menu-2"></i>
+          </button>
+          <div>
+            <h1 id="pageTitle">Dashboard</h1>
+            <p>Sistema distribuído entre clínicas odontológicas</p>
+          </div>
+        </div>
+        <div class="clinic-status">
+          <div class="status-dot"></div>
+          <span>Clínicas sincronizadas</span>
+        </div>
+      </header>
+
+      <!-- ===== DASHBOARD DOUTOR ===== -->
+      <section id="dashboardDoctor" class="page active-page">
+        <div class="cards-grid">
+          <div class="dashboard-card">
+            <div class="card-icon icon-blue"><i class="ti ti-users"></i></div>
+            <div class="card-body">
+              <h3>Pacientes</h3>
+              <span id="patientsCount">0</span>
+            </div>
+          </div>
+          <div class="dashboard-card">
+            <div class="card-icon icon-teal"><i class="ti ti-calendar"></i></div>
+            <div class="card-body">
+              <h3>Consultas</h3>
+              <span id="consultsCount">0</span>
+            </div>
+          </div>
+          <div class="dashboard-card">
+            <div class="card-icon icon-amber"><i class="ti ti-clipboard-list"></i></div>
+            <div class="card-body">
+              <h3>Prontuários</h3>
+              <span id="recordsCount">0</span>
+            </div>
+          </div>
+          <div class="dashboard-card">
+            <div class="card-icon icon-blue"><i class="ti ti-refresh"></i></div>
+            <div class="card-body">
+              <h3>Pendentes de Sync</h3>
+              <span id="pendingSyncCount">0</span>
+            </div>
+          </div>
+          <div class="dashboard-card">
+            <div class="card-icon icon-amber"><i class="ti ti-x"></i></div>
+            <div class="card-body">
+              <h3>Canceladas</h3>
+              <span id="canceledCount">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="main-card">
+          <div class="card-header">
+            <h2>Agenda de Hoje</h2>
+          </div>
+          <div id="todayAppointmentsList" class="today-list"></div>
+        </div>
+
+        <div class="main-card">
+          <div class="card-header">
+            <h2>Sobre o Sistema Distribuído</h2>
+          </div>
+          <div class="distributed-info">
+            <div class="info-block">
+              <h3>🏥 Clínicas como nós</h3>
+              <p>Cada clínica representa um nó independente, com sua própria API e banco de dados.</p>
+            </div>
+            <div class="info-block">
+              <h3>🔄 Replicação</h3>
+              <p>As consultas criadas em uma clínica podem ser sincronizadas com a outra unidade.</p>
+            </div>
+            <div class="info-block">
+              <h3>⏳ Consistência eventual</h3>
+              <p>Algumas consultas ficam pendentes até a sincronização ser executada.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="main-card">
+          <div class="card-header">
+            <h2>Arquitetura Distribuída</h2>
+          </div>
+          <div class="architecture">
+            <div class="node">
+              <h3>Clínica A</h3>
+              <p>localhost:3000</p>
+              <span>Banco Próprio</span>
+            </div>
+            <div class="sync-line">⇄</div>
+            <div class="node">
+              <h3>Clínica B</h3>
+              <p>localhost:3001</p>
+              <span>Banco Próprio</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== AGENDAMENTOS DOUTOR ===== -->
+      <section id="appointmentsDoctor" class="page">
+        <div class="main-card">
+          <div class="card-header">
+            <h2>Consultas Agendadas</h2>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Dentista</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Clínica</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="doctorAppointmentsTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== PACIENTES DOUTOR ===== -->
+      <section id="patientsDoctor" class="page">
+        <div class="main-card">
+          <div class="card-header">
+            <h2>Pacientes Cadastrados</h2>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Clínica</th>
+              </tr>
+            </thead>
+            <tbody id="doctorPatientsTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== PRONTUÁRIOS DOUTOR ===== -->
+      <section id="recordsDoctor" class="page">
+        <div class="main-card">
+          <div class="card-header">
+            <h2>Novo Prontuário</h2>
+          </div>
+          <form id="recordForm">
+            <input type="text" id="recordPatient" placeholder="Nome do paciente" required>
+            <input type="text" id="recordProcedure" placeholder="Procedimento realizado" required>
+            <textarea id="recordDescription" placeholder="Descrição detalhada do atendimento" required></textarea>
+            <button type="submit">Salvar Prontuário</button>
+          </form>
+        </div>
+        <div class="main-card">
+          <div class="card-header">
+            <h2>Histórico de Prontuários</h2>
+          </div>
+          <div id="recordsList"></div>
+        </div>
+      </section>
+
+      <!-- ===== DASHBOARD PACIENTE ===== -->
+      <section id="dashboardPatient" class="page">
+        <div class="welcome-card">
+          <h2>Bem-vindo ao OdontoSync</h2>
+          <p>Sistema online de agendamento odontológico distribuído entre clínicas.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="dashboard-card">
+            <div class="card-icon icon-blue">🏥</div>
+            <div class="card-body"><h3>Clínicas</h3><span>2</span></div>
+          </div>
+          <div class="dashboard-card">
+            <div class="card-icon icon-teal">🦷</div>
+            <div class="card-body"><h3>Dentistas</h3><span>3</span></div>
+          </div>
+          <div class="dashboard-card">
+            <div class="card-icon icon-amber">💻</div>
+            <div class="card-body"><h3>Agendamento</h3><span style="font-size:16px">Online</span></div>
+          </div>
+        </div>
+
+        <div class="main-card">
+          <div class="card-header">
+            <h2>Próxima Consulta</h2>
+          </div>
+          <div class="next-appointment-box">
+            <h3 id="nextAppointmentTitle">Nenhuma consulta agendada</h3>
+            <p id="nextAppointmentText">Quando você marcar uma consulta, ela aparecerá aqui.</p>
+          </div>
+        </div>
+
+        <div class="main-card">
+          <div class="card-header">
+            <h2>Serviços Disponíveis</h2>
+          </div>
+          <div class="services-grid">
+            <div class="service-card"><h3>🦷 Avaliação</h3><p>Consulta inicial para verificar a saúde bucal do paciente.</p></div>
+            <div class="service-card"><h3>✨ Limpeza</h3><p>Remoção de placas, tártaros e cuidados preventivos.</p></div>
+            <div class="service-card"><h3>🛠️ Restauração</h3><p>Tratamento para dentes com cáries ou pequenas fraturas.</p></div>
+            <div class="service-card"><h3>😁 Ortodontia</h3><p>Acompanhamento para alinhamento dos dentes e uso de aparelho.</p></div>
+          </div>
+        </div>
+
+        <div class="main-card">
+          <div class="card-header">
+            <h2>Locais de Atendimento</h2>
+          </div>
+          <div class="clinics-grid">
+            <div class="clinic-card">
+              <h3><i class="ti ti-building-hospital" style="margin-right:6px;"></i>Clínica A</h3>
+              <p>Avenida Central, 120 - Centro</p>
+              <span>João Pessoa - PB</span>
+              <div class="clinic-info"><strong>Telefone:</strong> (83) 99999-1111</div>
+              <div class="clinic-info"><strong>Funcionamento:</strong> 08:00 às 18:00</div>
+            </div>
+            <div class="clinic-card">
+              <h3><i class="ti ti-building-hospital" style="margin-right:6px;"></i>Clínica B</h3>
+              <p>Rua das Flores, 450</p>
+              <span>João Pessoa - PB</span>
+              <div class="clinic-info"><strong>Telefone:</strong> (83) 99999-2222</div>
+              <div class="clinic-info"><strong>Funcionamento:</strong> 08:00 às 20:00</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== AGENDAR CONSULTA ===== -->
+      <section id="schedulePatient" class="page">
+        <div class="main-card">
+          <div class="card-header">
+            <h2>Agendar Consulta</h2>
+          </div>
+          <form id="appointmentForm">
+            <input type="text" id="appointmentPatient" placeholder="Seu nome" required>
+            <input type="text" id="appointmentCpf" placeholder="Seu CPF" required>
+            <select id="appointmentDoctor">
+              <option>Dra. Fernanda</option>
+              <option>Dr. Rafael</option>
+              <option>Dra. Camila</option>
+            </select>
+            <input type="date" id="appointmentDate" required>
+            <input type="time" id="appointmentTime" required>
+            <select id="appointmentClinic">
+              <option>Clínica A</option>
+              <option>Clínica B</option>
+            </select>
+            <p id="appointmentError" class="form-error hidden"></p>
+            <button type="submit">Agendar Consulta</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ===== MINHAS CONSULTAS ===== -->
+      <section id="consultsPatient" class="page">
+        <div class="main-card">
+          <div class="card-header">
+            <h2>Minhas Consultas</h2>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Dentista</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Clínica</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="patientAppointmentsTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== SINCRONIZAÇÃO ===== -->
+      <section id="syncDoctor" class="page">
+        <div class="main-card">
+          <div class="card-header">
+            <h2>Sincronização entre Clínicas</h2>
+          </div>
+          <div class="sync-dashboard">
+            <div class="sync-card">
+              <h3>Consultas pendentes</h3>
+              <span id="syncPendingCount">0</span>
+            </div>
+            <div class="sync-card">
+              <h3>Última sincronização</h3>
+              <p id="syncLastText">Ainda não realizada</p>
+            </div>
+            <div class="sync-card">
+              <h3>Status do nó remoto</h3>
+              <p id="remoteNodeStatusText">Clínica B online</p>
+            </div>
+          </div>
+          <div class="sync-explanation">
+            <p><strong>Como funciona:</strong> consultas novas ou remarcadas ficam pendentes. Ao sincronizar, o sistema simula a replicação dos dados entre Clínica A e Clínica B.</p>
+          </div>
+          <div class="sync-actions">
+            <button class="sync-button" id="syncButton" onclick="sincronizarClinicas()">Sincronizar Clínica A ↔ Clínica B</button>
+            <button class="sync-button sync-button-secondary" id="nodeToggleButton" onclick="alternarNoRemoto()">Simular Clínica B offline</button>
+          </div>
+        </div>
+
+        <div class="main-card">
+          <div class="card-header">
+            <h2>Status das Consultas</h2>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Clínica</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="syncAppointmentsTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+
+      <!-- ===== DADOS / BACKUP ===== -->
+      <section id="dataDoctor" class="page">
+        <div class="main-card">
+          <div class="card-header">
+            <h2>Dados do Protótipo</h2>
+          </div>
+          <div class="distributed-info data-actions-panel">
+            <div class="info-block">
+              <h3><i class="ti ti-device-floppy" style="margin-right:6px;"></i>Persistência no SQLite</h3>
+              <p>Os dados deste protótipo ficam salvos no backend em bancos SQLite separados para a Clínica A e a Clínica B.</p>
+            </div>
+            <div class="info-block">
+              <h3><i class="ti ti-upload" style="margin-right:6px;"></i>Exportação</h3>
+              <p>Gere um arquivo JSON com usuários, pacientes, consultas, prontuários e status da sincronização.</p>
+              <button class="sync-button" onclick="exportarDados()">Exportar dados JSON</button>
+            </div>
+            <div class="info-block">
+              <h3><i class="ti ti-rotate-clockwise" style="margin-right:6px;"></i>Ambiente de demonstração</h3>
+              <p>Restaure os dados iniciais para apresentar o sistema novamente do zero.</p>
+              <button class="sync-button sync-button-secondary" onclick="confirmarResetDemo()">Restaurar demonstração</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="main-card">
+          <div class="card-header">
+            <h2>Resumo Técnico</h2>
+          </div>
+          <div class="tech-summary">
+            <div><strong>Front-end:</strong> HTML, CSS e JavaScript puro</div>
+            <div><strong>Persistência atual:</strong> SQLite no backend</div>
+            <div><strong>Perfis:</strong> Doutor e Paciente</div>
+            <div><strong>Distribuído:</strong> simulação de nós, replicação e consistência eventual</div>
+            <div><strong>Backend:</strong> API REST em Node.js/Express conectada ao SQLite</div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </section>
+
+  <!-- ===== OVERLAY ===== -->
+  <div id="modalOverlay" class="modal-overlay hidden"></div>
+
+  <!-- ===== MODAL: CONFIRMAR CANCELAMENTO ===== -->
+  <div id="modalConfirm" class="modal hidden">
+    <div class="modal-header">
+      <h3 id="modalConfirmTitle">Confirmar ação</h3>
+    </div>
+    <div class="modal-body">
+      <p id="modalConfirmBody"></p>
+      <div class="modal-footer">
+        <button class="btn-modal-cancel" id="modalConfirmCancel">Voltar</button>
+        <button class="btn-modal-ok" id="modalConfirmOk">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: REMARCAR CONSULTA ===== -->
+  <div id="modalRemarcar" class="modal hidden">
+    <div class="modal-header">
+      <h3>Remarcar Consulta</h3>
+    </div>
+    <div class="modal-body">
+      <form id="remarcarForm">
+        <input type="hidden" id="remarcarId">
+        <p class="remarcar-info" id="remarcarInfo"></p>
+        <p class="modal-label">Dentista</p>
+        <select id="remarcarDoctor">
+          <option>Dra. Fernanda</option>
+          <option>Dr. Rafael</option>
+          <option>Dra. Camila</option>
+        </select>
+        <p class="modal-label">Nova data</p>
+        <input type="date" id="remarcarDate" required>
+        <p class="modal-label">Novo horário</p>
+        <input type="time" id="remarcarTime" required>
+        <p class="modal-label">Clínica</p>
+        <select id="remarcarClinic">
+          <option>Clínica A</option>
+          <option>Clínica B</option>
+        </select>
+        <p id="remarcarError" class="form-error hidden"></p>
+        <div class="modal-footer">
+          <button type="button" class="btn-modal-cancel" id="modalRemarcarCancel">Cancelar</button>
+          <button type="submit" class="btn-modal-ok">Salvar alteração</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: LOGOUT (redesenhado) ===== -->
+  <div id="modalLogout" class="modal modal-logout hidden">
+    <div class="modal-logout-icon"><i class="ti ti-door-exit" style="font-size:28px; color:#dc2626;"></i></div>
+    <div class="modal-header modal-logout-header">
+      <h3>Sair do sistema</h3>
+    </div>
+    <div class="modal-body modal-logout-body">
+      <p>Tem certeza que deseja encerrar sua sessão? Você precisará entrar novamente para acessar o sistema.</p>
+      <div class="logout-user-info" id="logoutUserInfo"></div>
+      <div class="modal-footer modal-logout-footer">
+        <button class="btn-modal-cancel" onclick="fecharModalLogout()">Cancelar</button>
+        <button class="btn-modal-ok btn-danger" onclick="confirmarLogout()">Sim, sair agora</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

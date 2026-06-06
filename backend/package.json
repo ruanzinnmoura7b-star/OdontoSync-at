@@ -1,0 +1,18 @@
+{
+  "name": "odontosync-backend",
+  "version": "1.0.0",
+  "description": "Backend do OdontoSync com Node.js, Express e SQLite",
+  "main": "src/server.js",
+  "scripts": {
+    "dev:a": "PORT=3000 CLINICA=\"Clínica A\" DB_FILE=./src/data/clinica-a.sqlite node src/server.js",
+    "dev:b": "PORT=3001 CLINICA=\"Clínica B\" DB_FILE=./src/data/clinica-b.sqlite node src/server.js",
+    "dev:win:a": "set PORT=3000&& set CLINICA=Clínica A&& set DB_FILE=./src/data/clinica-a.sqlite&& node src/server.js",
+    "dev:win:b": "set PORT=3001&& set CLINICA=Clínica B&& set DB_FILE=./src/data/clinica-b.sqlite&& node src/server.js",
+    "check": "node --check src/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.3",
+    "sqlite3": "^5.1.7"
+  }
+}

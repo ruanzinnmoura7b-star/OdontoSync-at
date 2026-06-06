@@ -1,0 +1,7 @@
+node_modules/
+backend/node_modules/
+*.log
+.env
+.DS_Store
+backend/src/data/*.sqlite
+backend/src/data/*.sqlite-journal
